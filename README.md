@@ -7,8 +7,8 @@ There are several default declared contexts:
 - *Application.diContext*
 - *Activity.nonConfigDiContext*
 - *Activity.diContext*
-- *Fragmnet.nonConfigDiContext*
-- *Fragmnet.diContext*
+- *Fragment.nonConfigDiContext*
+- *Fragment.diContext*
 
 ![](di_context_hierarchy.png)
 
@@ -22,7 +22,7 @@ There are several default other markers:
 - *etc...*
 
 ## Some implementations ideas
-- DiComonent can depend on several other ones.
+- DiComponent can depend on several other ones.
 - Instance of any DiComponent is stored in some DiContext.
 - Instance of DiComponent can be obtained only from DiContext.
 - Instance of DiComponent can be stored in one DiContext and obtained from another one.
@@ -88,24 +88,24 @@ class Level1Component : FragmentDiComponent {
     }
 }
 
-class Level0Fragment : Fragmnet() {
+class Level0Fragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
 }
 
 // Child of Level0Fragment
-class Level1ragment : Fragmnet() {
+class Level1Fragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         diContext.configure {
             setOwnerOf(Level1Component::class)
         }
+        super.onCreate(savedInstanceState)
     }
-    super.onCreate(savedInstanceState)
 }
 
 // Child of Level1Fragment
-class Level2ragment : Fragmnet() {
+class Level2Fragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val level1Component = diContext.obtainComponent(Level1Component::class)
