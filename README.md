@@ -45,7 +45,7 @@ class CoreComponent : ApplicationDiComponent {
 ```
 2. Create dependency from one *DiComponent* to another
 ```kotlin
-class AppComponent : ActivityDiComponent {
+class AppComponent : ApplicationDiComponent {
     class Factory : DiComponentFactory<AppComponent> {
         override fun createComponent(provider: DiComponentProvider): AppComponent {
             val coreComponent = provider.obtainComponent(CoreComponent::class)
