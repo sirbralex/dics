@@ -32,5 +32,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Permanent component" />
+
+        <Button
+            android:id="@+id/weak_ref_di_context_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="WeakRef DiContext" />
     </LinearLayout>
 </ScrollView>

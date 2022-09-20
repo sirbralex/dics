@@ -47,7 +47,7 @@ internal fun DiContextImpl.releaseComponent() {
         val dependencies = HashSet(leafNode.dependencies)
         dependencies.forEach { dependency ->
             detachConsumerFromDependency(leafNode, dependency)
-            if (dependency.dependencies.isEmpty()) {
+            if (dependency.consumers.isEmpty()) {
                 tryRemoveComponentNode(this, dependency)
             }
         }

@@ -3,6 +3,8 @@ package com.example.dics.component
 interface DiComponent
 interface PermanentDiComponent : DiComponent
 
+// No instances, just to fit exiting api
+sealed interface WeakRefDiComponent : DiComponent
 
 interface ApplicationDiComponent : DiComponent
 interface ApplicationPermanentDiComponent : ApplicationDiComponent, PermanentDiComponent

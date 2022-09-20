@@ -8,6 +8,7 @@ import com.example.dics.activtity_flow.FlowActivity1
 import com.example.dics.fragment_flow.FragmentFlowActivity
 import com.example.dics.fragment_hierarchy.FragmentHierarchyActivity
 import com.example.dics.permanent_component.PermanentComponentActivity
+import com.example.dics.weak_ref_di_context.WeakRefDiContextActivity
 
 class RootActivity : AppCompatActivity(R.layout.activity_root) {
 
@@ -24,6 +25,9 @@ class RootActivity : AppCompatActivity(R.layout.activity_root) {
         }
         findViewById<Button>(R.id.permanent_component_btn).setOnClickListener {
             startActivity(Intent(this, PermanentComponentActivity::class.java))
+        }
+        findViewById<Button>(R.id.weak_ref_di_context_btn).setOnClickListener {
+            startActivity(Intent(this, WeakRefDiContextActivity::class.java))
         }
     }
 }
