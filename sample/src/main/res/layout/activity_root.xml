@@ -38,5 +38,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="WeakRef DiContext" />
+
+        <Button
+            android:id="@+id/component_key_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Component Key" />
     </LinearLayout>
 </ScrollView>

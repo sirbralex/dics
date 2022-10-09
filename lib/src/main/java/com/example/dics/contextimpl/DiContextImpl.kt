@@ -2,10 +2,11 @@ package com.example.dics.contextimpl
 
 import com.example.dics.component.DiComponent
 import com.example.dics.context.ClearableDiContext
+import com.example.dics.graph.ComponentKey
 import com.example.dics.graph.Graph
 import com.example.dics.impl.ComponentNodeFactory
 import com.example.dics.impl.ComponentNodeProvider
-import com.example.dics.impl.DiComponentFactory
+import com.example.dics.impl.DiComponentFactoryWrapper
 import kotlin.reflect.KClass
 
 internal class DiContextImpl(
@@ -18,8 +19,8 @@ internal class DiContextImpl(
 
     val graph = Graph()
 
-    private val _factories = mutableMapOf<KClass<out DiComponent>, DiComponentFactory<*>>()
-    val factories: Map<KClass<out DiComponent>, DiComponentFactory<*>>
+    private val _factories = mutableMapOf<KClass<out DiComponent>, DiComponentFactoryWrapper<*, *>>()
+    val factories: Map<KClass<out DiComponent>, DiComponentFactoryWrapper<*, *>>
         get() = _factories
 
     private val _associatedComponents: MutableSet<KClass<out DiComponent>> = mutableSetOf()
@@ -38,7 +39,7 @@ internal class DiContextImpl(
         return name
     }
 
-    fun <A : DiComponent> addComponentFactory(kClass: KClass<A>, factory: DiComponentFactory<A>) {
+    fun <A : DiComponent> addComponentFactory(kClass: KClass<A>, factory: DiComponentFactoryWrapper<A, out ComponentKey<A>>) {
         _factories[kClass] = factory
     }
 

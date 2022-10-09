@@ -11,7 +11,7 @@ internal class ComponentNodeFactory {
         componentKey: ComponentKey<*>
     ): Result {
         val componentProvider = DiComponentProviderImpl(diContextImpl)
-        val component = diContextImpl.getComponentFactory(componentKey.kClass).createComponent(componentProvider)
+        val component = diContextImpl.getComponentFactory(componentKey.kClass).createComponent(componentProvider, componentKey)
         return Result(
             node = ComponentNode(componentKey, component),
             obtainedNodes = componentProvider.obtainedComponentNodes

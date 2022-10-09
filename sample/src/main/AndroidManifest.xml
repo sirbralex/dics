@@ -34,6 +34,7 @@
         <activity android:name="com.example.dics.fragment_hierarchy.FragmentHierarchyActivity" />
         <activity android:name="com.example.dics.permanent_component.PermanentComponentActivity" />
         <activity android:name="com.example.dics.weak_ref_di_context.WeakRefDiContextActivity" />
+        <activity android:name="com.example.dics.component_key.ComponentKeyActivity" />
     </application>
 
 </manifest>

@@ -6,4 +6,4 @@ import kotlin.reflect.KClass
 
 internal sealed interface NodeKey
 internal data class LeafNodeKey(val consumer: DiContextImpl) : NodeKey
-data class ComponentKey<A : DiComponent>(val kClass: KClass<A>) : NodeKey
+open class ComponentKey<A : DiComponent>(val kClass: KClass<A>) : NodeKey
