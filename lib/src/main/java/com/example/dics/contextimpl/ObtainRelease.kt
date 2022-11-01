@@ -3,8 +3,9 @@ package com.example.dics.contextimpl
 import attachConsumerToDependency
 import detachConsumerFromDependency
 import com.example.dics.component.DiComponent
+import com.example.dics.component.WithKeyOnlyDiComponent
 import com.example.dics.context.DiContext
-import com.example.dics.graph.ComponentKey
+import com.example.dics.graph.*
 import com.example.dics.graph.ComponentNode
 import com.example.dics.graph.LeafNode
 import com.example.dics.graph.LeafNodeKey
@@ -12,20 +13,26 @@ import com.example.dics.log.log
 import kotlin.reflect.KClass
 
 fun <A : DiComponent> DiContext.obtainComponent(kClass: KClass<A>): A {
-    val componentKey = ComponentKey(kClass)
-    return obtainComponent(componentKey)
+    this as DiContextImpl
+    val componentNodeKey = ComponentNodeKey(kClass)
+    return obtainComponent(componentNodeKey)
 }
 
-fun <A : DiComponent> DiContext.obtainComponent(componentKey: ComponentKey<A>): A {
+fun <A : WithKeyOnlyDiComponent> DiContext.obtainComponent(kClass: KClass<A>): Unit {
+    log("not provided")
+}
+
+fun <C : WithKeyOnlyDiComponent> DiContext.obtainComponent(componentKey: ComponentKey<C>): C {
     this as DiContextImpl
-    return obtainComponent(componentKey)
+    val componentNodeKey = ComponentNodeKey(componentKey.kClass, componentKey)
+    return obtainComponent(componentNodeKey)
 }
 
 @Suppress("UNCHECKED_CAST")
 internal fun <A : DiComponent> DiContextImpl.obtainComponent(
-    componentKey: ComponentKey<A>
+    componentNodeKey: ComponentNodeKey<A>
 ): A {
-    val componentNode = componentNodeProvider.getComponentNode(this, componentKey)
+    val componentNode = componentNodeProvider.getComponentNode(this, componentNodeKey)
     val leafNodeKey = LeafNodeKey(this)
     var leafNode = graph.getNode(leafNodeKey)
     if (leafNode == null) {
@@ -56,10 +63,10 @@ internal fun DiContextImpl.releaseComponent() {
 }
 
 private fun tryRemoveComponentNode(consumerDiContext: DiContextImpl, componentNode: ComponentNode) {
-    val ownerContext = consumerDiContext.getOwnerOf(componentNode.componentKey.kClass)
+    val ownerContext = consumerDiContext.getOwnerOf(componentNode.nodeKey.kClass)
     if (componentNode.consumers.isEmpty()) {
-        ownerContext.graph.removeNode(componentNode.componentKey)
-        log("component removed ${componentNode.componentKey.kClass}")
+        ownerContext.graph.removeNode(componentNode.nodeKey)
+        log("component removed ${componentNode.nodeKey.kClass}")
 
         componentNode.dependencies.forEach {
             detachConsumerFromDependency(componentNode, it)

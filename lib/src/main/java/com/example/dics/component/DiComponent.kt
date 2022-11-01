@@ -2,6 +2,7 @@ package com.example.dics.component
 
 interface DiComponent
 interface PermanentDiComponent : DiComponent
+interface WithKeyOnlyDiComponent : DiComponent
 
 // No instances, just to fit exiting api
 sealed interface WeakRefDiComponent : DiComponent

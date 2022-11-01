@@ -8,13 +8,13 @@ internal sealed class Node {
 }
 
 internal class ComponentNode(
-    val componentKey: ComponentKey<*>,
+    val nodeKey: ComponentNodeKey<*>,
     val component: DiComponent
 ) : Node() {
     val consumers: MutableSet<Node> = mutableSetOf()
 }
 
 internal class LeafNode(
-    val leafNodeKey: LeafNodeKey,
+    val nodeKey: LeafNodeKey,
     val consumer: DiContextImpl
 ) : Node()

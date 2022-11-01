@@ -1,28 +1,39 @@
 package com.example.dics.impl
 
 import com.example.dics.component.DiComponent
+import com.example.dics.component.WithKeyOnlyDiComponent
 import com.example.dics.graph.ComponentKey
 
-internal class DiComponentFactoryWrapper<A : DiComponent, K : ComponentKey<A>> {
+internal interface DiComponentFactoryWrapper {
+    fun createComponent(
+        provider: DiComponentProvider,
+        componentKey: ComponentKey<*>?
+    ): DiComponent
+}
 
-    private val diComponentWithKeyFactory: DiComponentWithKeyFactory<A, K>?
-    private val diComponentFactory: DiComponentFactory<A>?
+internal class DiComponentFactoryWrapperImpl<C1 : DiComponent, C2 : WithKeyOnlyDiComponent, K : ComponentKey<C2>> :
+    DiComponentFactoryWrapper {
 
-    constructor(ff: DiComponentWithKeyFactory<A, K>) {
+    private val diComponentWithKeyFactory: DiComponentWithKeyFactory<C2, K>?
+    private val diComponentFactory: DiComponentFactory<C1>?
+
+    constructor(ff: DiComponentWithKeyFactory<C2, K>) {
         this.diComponentWithKeyFactory = ff
         this.diComponentFactory = null
     }
 
-    constructor(ff2: DiComponentFactory<A>) {
+    constructor(ff2: DiComponentFactory<C1>) {
         this.diComponentWithKeyFactory = null
         this.diComponentFactory = ff2
     }
 
-    fun createComponent(provider: DiComponentProvider, componentKey: ComponentKey<*>): A {
+    override fun createComponent(
+        provider: DiComponentProvider,
+        componentKey: ComponentKey<*>?
+    ): DiComponent {
         if (diComponentWithKeyFactory == null) {
             return diComponentFactory!!.createComponent(provider)
         } else {
-            @Suppress("UNCHECKED_CAST")
             return diComponentWithKeyFactory.createComponent(provider, componentKey as K)
         }
     }

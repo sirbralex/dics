@@ -4,7 +4,7 @@ import com.example.dics.component.DiComponent
 import com.example.dics.impl.DiComponentFactoryWrapper
 import kotlin.reflect.KClass
 
-internal fun <A : DiComponent> DiContextImpl.getComponentFactory(kClass: KClass<A>): DiComponentFactoryWrapper<A, *> {
+internal fun <A : DiComponent> DiContextImpl.getComponentFactory(kClass: KClass<A>): DiComponentFactoryWrapper {
     val factory = internalGetComponentFactory(kClass)
     if (factory == null) {
         throw IllegalStateException("No factory registered for $kClass")
@@ -12,11 +12,11 @@ internal fun <A : DiComponent> DiContextImpl.getComponentFactory(kClass: KClass<
     return factory
 }
 
-private fun <A : DiComponent> DiContextImpl.internalGetComponentFactory(kClass: KClass<A>): DiComponentFactoryWrapper<A, *>? {
+private fun <A : DiComponent> DiContextImpl.internalGetComponentFactory(kClass: KClass<A>): DiComponentFactoryWrapper? {
     val factory = factories[kClass]
     if (factory != null) {
         @Suppress("UNCHECKED_CAST")
-        return factory as DiComponentFactoryWrapper<A, *>
+        return factory
     }
     delegates.forEach { delegate ->
         delegate.internalGetComponentFactory(kClass)?.let { factory ->
